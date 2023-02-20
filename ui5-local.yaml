@@ -1,0 +1,42 @@
+specVersion: "2.4"
+metadata:
+  name: fiori.display.purchase.documents.PurchaseDocumentsALP
+type: application
+framework:
+  name: SAPUI5
+  version: 1.110.1
+  libraries:
+    - name: sap.ui.core
+    - name: sap.ui.generic.app
+    - name: sap.suite.ui.generic.template
+    - name: sap.m
+    - name: sap.ushell
+    - name: sap.collaboration
+    - name: sap.f
+    - name: sap.ui.comp
+    - name: sap.ui.table
+    - name: themelib_sap_belize
+    - name: themelib_sap_bluecrystal
+    - name: themelib_sap_fiori_3
+server:
+  customMiddleware:
+    - name: fiori-tools-proxy
+      afterMiddleware: compression
+      configuration:
+        ignoreCertError: false
+        backend:
+          - path: /sap
+            url: ""
+            client: "001"
+            destination: ER9CLNT001
+    - name: fiori-tools-appreload
+      afterMiddleware: compression
+      configuration:
+        port: 35729
+        path: webapp
+        delay: 300
+    - name: fiori-tools-preview
+      afterMiddleware: fiori-tools-appreload
+      configuration:
+        component: fiori.display.purchase.documents.PurchaseDocumentsALP
+        ui5Theme: sap_fiori_3
